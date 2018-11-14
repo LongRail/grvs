@@ -1,0 +1,26 @@
+# /etc/conf.d/grvsd: config file for /etc/init.d/grvsd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/grvs/grvs.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/grvsd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/grvsd.pid"
+
+# Where to write grvsd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/grvsd"
+
+# User and group to own grvsd process
+#BITCOIND_USER="grvs"
+#BITCOIND_GROUP="grvs"
+
+# Path to grvsd executable
+#BITCOIND_BIN="/usr/bin/grvsd"
+
+# Nice value to run grvsd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

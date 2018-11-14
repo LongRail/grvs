@@ -1,0 +1,36 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/grvs_bg.qm</file>
+        <file alias="ca">locale/grvs_ca.qm</file>
+        <file alias="cs">locale/grvs_cs.qm</file>
+        <file alias="da">locale/grvs_da.qm</file>
+        <file alias="de">locale/grvs_de.qm</file>
+        <file alias="en">locale/grvs_en.qm</file>
+        <file alias="en_US">locale/grvs_en_US.qm</file>
+        <file alias="eo">locale/grvs_eo.qm</file>
+        <file alias="es">locale/grvs_es.qm</file>
+        <file alias="es_ES">locale/grvs_es_ES.qm</file>
+        <file alias="fi">locale/grvs_fi.qm</file>
+        <file alias="fr_FR">locale/grvs_fr_FR.qm</file>
+        <file alias="hi_IN">locale/grvs_hi_IN.qm</file>
+        <file alias="hr">locale/grvs_hr.qm</file>
+        <file alias="hr_HR">locale/grvs_hr_HR.qm</file>
+        <file alias="it">locale/grvs_it.qm</file>
+        <file alias="ja">locale/grvs_ja.qm</file>
+        <file alias="ko_KR">locale/grvs_ko_KR.qm</file>
+        <file alias="lt_LT">locale/grvs_lt_LT.qm</file>
+        <file alias="nl">locale/grvs_nl.qm</file>
+        <file alias="pl">locale/grvs_pl.qm</file>
+        <file alias="pt">locale/grvs_pt.qm</file>
+        <file alias="pt_BR">locale/grvs_pt_BR.qm</file>
+        <file alias="ro_RO">locale/grvs_ro_RO.qm</file>
+        <file alias="ru">locale/grvs_ru.qm</file>
+        <file alias="sk">locale/grvs_sk.qm</file>
+        <file alias="sv">locale/grvs_sv.qm</file>
+        <file alias="tr">locale/grvs_tr.qm</file>
+        <file alias="uk">locale/grvs_uk.qm</file>
+        <file alias="vi">locale/grvs_vi.qm</file>
+        <file alias="zh_CN">locale/grvs_zh_CN.qm</file>
+        <file alias="zh_TW">locale/grvs_zh_TW.qm</file>
+    </qresource>
+</RCC>

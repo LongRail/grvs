@@ -1,0 +1,26 @@
+[Unit]
+Description=GRVS's distributed currency daemon
+After=network.target
+
+[Service]
+User=grvs
+Group=grvs
+
+Type=forking
+PIDFile=/var/lib/grvsd/grvsd.pid
+
+ExecStart=/usr/bin/grvsd -daemon -pid=/var/lib/grvsd/grvsd.pid \
+          -conf=/etc/grvs/grvs.conf -datadir=/var/lib/grvsd
+
+ExecStop=-/usr/bin/grvs-cli -conf=/etc/grvs/grvs.conf \
+         -datadir=/var/lib/grvsd stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

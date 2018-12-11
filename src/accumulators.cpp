@@ -253,6 +253,7 @@ bool CalculateAccumulatorCheckpoint(int nHeight, uint256& nCheckpoint, Accumulat
     bool fFilterInvalid = nHeight >= Params().Zerocoin_Block_RecalculateAccumulators();
 
     //Accumulate all coins over the last ten blocks that havent been accumulated (height - 20 through height - 11)
+    if (nHeightCheckpoint < 20) nHeightCheckpoint = 20;
     int nTotalMintsFound = 0;
     CBlockIndex *pindex = chainActive[nHeightCheckpoint - 20];
 
@@ -316,7 +317,7 @@ bool ValidateAccumulatorCheckpoint(const CBlock& block, CBlockIndex* pindex, Acc
             return error("%s : failed to calculate accumulator checkpoint", __func__);
 
         if (nCheckpointCalculated != block.nAccumulatorCheckpoint) {
-            LogPrintf("%s: block=%d calculated: %s\n block: %s\n", __func__, pindex->nHeight, nCheckpointCalculated.GetHex(), block.nAccumulatorCheckpoint.GetHex());
+            LogPrintf("%s: block=%d calculated: %s block.nAccumulatorCheckpoint: %s\n", __func__, pindex->nHeight, nCheckpointCalculated.GetHex(), block.nAccumulatorCheckpoint.GetHex());
             return error("%s : accumulator does not match calculated value", __func__);
         }
 
@@ -459,6 +460,7 @@ bool GenerateAccumulatorWitness(const PublicCoin &coin, Accumulator& accumulator
     }
 
     //add the pubcoins from the blockchain up to the next checksum starting from the block
+    if (nHeightCheckpoint < 10) nHeightCheckpoint = 10;
     CBlockIndex* pindex = chainActive[nHeightCheckpoint - 10];
     int nChainHeight = chainActive.Height();
     int nHeightStop = nChainHeight % 10;

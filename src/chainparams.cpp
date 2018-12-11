@@ -131,16 +131,16 @@ public:
 
         /** Height or Time Based Activations **/
         nLastPOWBlock = 1200;
-        nModifierUpdateBlock = 520001;
+        nModifierUpdateBlock = 2147483646;
         nZerocoinStartHeight = 170000;
         nZerocoinStartTime = 1544616732;		// 12/12/2018 @ 12:12pm (UTC)
         nBlockEnforceSerialRange = 1;			// Enforce serial range starting this block
         nBlockRecalculateAccumulators = ~1;		// Trigger a recalculation of accumulators
         nBlockFirstFraudulent = ~1;				// First block that bad serials emerged
         nBlockLastGoodCheckpoint = ~1;			// Last valid accumulator checkpoint
-//      nBlockEnforceInvalidUTXO = 902850;		// Value deleted and not used
-//      nInvalidAmountFiltered = 268200*COIN;	// Value deleted and not used
-        nBlockZerocoinV2 = 171000;				//!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
+        nBlockEnforceInvalidUTXO = 2147483646;  // Start enforcing the invalid UTXO's
+        nInvalidAmountFiltered = 0 * COIN;      // Amount of invalid coins filtered through exchanges, that should be considered valid
+        nBlockZerocoinV2 = 2147483646;          //!> The block that zerocoin v2 becomes active
 
         /**
          * Build the genesis block. Note that the output of the genesis coinbase cannot

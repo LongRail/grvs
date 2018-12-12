@@ -16,6 +16,8 @@
 #include "utilmoneystr.h"
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#define REV_BLOCK 160000
+#define PHZ_BLOCK 10000
 
 /** Object for who's going to get paid on which blocks */
 CMasternodePayments masternodePayments;
@@ -199,23 +201,90 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
         if (nHeight % GetBudgetPaymentCycleBlocks() < 100) {
             return true;
         } else {
-            if (nMinted > nExpectedValue) {
+            if (nHeight < 159600)
+                return true;
+            if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK != 0 && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #1-1: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
                 return false;
+            }
+            else if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK == 0 && nMinted < nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #1-2: Reward is not pays actual=%s < limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else if (nHeight > REV_BLOCK && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #1-3: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #1-4: Reward pays actual=%s limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
             }
         }
     } else { // we're synced and have data so check the budget schedule
 
         //are these blocks even enabled
         if (!IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS)) {
-            return nMinted <= nExpectedValue;
+            if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK != 0 && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #2-1: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK == 0 && nMinted < nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #2-2: Reward is not pays actual=%s < limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else if (nHeight > REV_BLOCK && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #2-3: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #2-4: Reward pays actual=%s limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+            }
+            return true;
         }
 
         if (budget.IsBudgetPaymentBlock(nHeight)) {
             //the value of the block is evaluated in CheckBlock
             return true;
         } else {
-            if (nMinted > nExpectedValue) {
+            if (nHeight < 159600)
+                return true;
+            if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK != 0 && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #3-1: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
                 return false;
+            }
+            else if (nHeight <= REV_BLOCK && nHeight % PHZ_BLOCK == 0 && nMinted < nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #3-2: Reward is not pays actual=%s < limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else if (nHeight > REV_BLOCK && nMinted > nExpectedValue) {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #3-3: Reward is not pays actual=%s > limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
+                return false;
+            }
+            else {
+                if (fDebug)
+                    LogPrint("masternode","Reverse Block #3-4: Reward pays actual=%s limit=%s Blocks=%s\n",
+                            FormatMoney(nMinted), FormatMoney(nExpectedValue), nHeight);
             }
         }
     }
@@ -561,13 +630,13 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
         bool found = false;
         BOOST_FOREACH (CTxOut out, txNew.vout) {
             if (payee.scriptPubKey == out.scriptPubKey) {
-                if(nBlockHeight <= 160000 && out.nValue <= requiredMasternodePayment) {
+                if(nBlockHeight <= REV_BLOCK && out.nValue <= requiredMasternodePayment) {
                     found = true;
                     if (fDebug)
                         LogPrint("masternode","Masternode payment was made successfully. Paid=%s Max=%s Blocks=%s Reward=%s\n",
                                   FormatMoney(out.nValue).c_str(), FormatMoney(requiredMasternodePayment).c_str(), nBlockHeight, FormatMoney(nReward).c_str());
                 }
-                else if(nBlockHeight > 160000 && out.nValue >= requiredMasternodePayment) {
+                else if(nBlockHeight > REV_BLOCK && out.nValue >= requiredMasternodePayment) {
                     found = true;
                     if (fDebug)
                         LogPrint("masternode","Masternode payment was made successfully. Paid=%s Min=%s Blocks=%s Reward=%s\n",
